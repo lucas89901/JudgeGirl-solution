@@ -1,0 +1,5 @@
+BasedOnStyle: Google
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortLambdasOnASingleLine: Empty
+DerivePointerAlignment: False
+PointerAlignment: Right
