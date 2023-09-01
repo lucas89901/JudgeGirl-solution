@@ -26,7 +26,7 @@ def main():
     parser.add_argument('id', type=int, help='Problem ID.')
     args = parser.parse_args()
 
-    os.chdir('..')
+    os.chdir(pathlib.Path(__file__).resolve().parent)
 
     response = requests.get(
         f'https://judgegirl.csie.org/problem/{args.domain}/{args.id}',
@@ -37,11 +37,14 @@ def main():
             'not exist or the server is currently down.')
     soup = bs4.BeautifulSoup(response.text, 'html.parser')
     title = soup.find('h1').text
+    print(f'Problem title: {title}')
 
-    solution_file = pathlib.Path(f'{DOMAIN_ID_TO_TITLE[args.domain]}/{title}.c')
+    solution_file = pathlib.Path(
+        f'../{DOMAIN_ID_TO_TITLE[args.domain]}/{title}.c')
     if solution_file.exists():
         raise FileExistsError(f'Solution file already exists: {solution_file}')
     shutil.copyfile('template.c', solution_file)
+    print('Success')
 
 
 if __name__ == '__main__':
