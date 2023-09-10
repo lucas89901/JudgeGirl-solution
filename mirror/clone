@@ -1,0 +1,73 @@
+#!/bin/bash
+#
+# Clone a contest worth of web pages on judgegirl.csie.org.
+#
+# Usage:
+#   clone CONTEST_ID USERNAME PASSWORD
+
+err() {
+  echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $*" >&2
+}
+
+if (( $# < 3 )); then
+  err "Missing positional arguments."
+  exit 1
+fi
+
+readonly USER_AGENT="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"
+
+# Login to JudgeGirl.
+wget \
+  --post-data="lgn=$2&pwd=$3&submit=" \
+  --save-cookies=cookies.txt \
+  --keep-session-cookies \
+  --user-agent="${USER_AGENT}" \
+  --header="Cookie: locale=zhtw" \
+  -O /dev/null \
+  https://judgegirl.csie.org/login
+
+# Switch locale to zh-tw.
+wget \
+  --load-cookies=cookies.txt \
+  --save-cookies=cookies.txt \
+  --keep-session-cookies \
+  -O /dev/null \
+  https://judgegirl.csie.org/i18n/zhtw
+
+wgetrc="$(mktemp)"
+cat > "${wgetrc}" <<END
+accept-regex = $1|report|submissions|source|favicon.ico
+backup_converted = on
+check_certificate = off
+convert_links = on
+keep_session_cookies = on
+# header = Cookie: locale=zhtw
+load_cookies = cookies.txt
+page_requisites = on
+recursive = on
+reclevel = 0
+reject-regex = logout
+# restrict_file_names = ascii
+robots = off
+# save_cookies = cookies.txt
+save_headers = on
+server_response = on
+user_agent = ${USER_AGENT}
+# timestamping = on
+wait = 0.1
+END
+
+# TODO: Because wget's accept and reject rules doesn't match query strings, and
+# that the page navigation bar of live submission pages ranges from page 1 to
+# page 9999, attempting to clone any live submission page would recursively
+# clone 9999 pages. Working around this requires some work, so I'm leaving the
+# live submission page out for now.
+wget --config="${wgetrc}" \
+  "https://judgegirl.csie.org/contest/$1" # \
+  # "https://judgegirl.csie.org/live?cid=$1"
+
+if [[ -d "judgegirl.csie.org" ]]; then
+  mv "judgegirl.csie.org" "judgegirl.csie.org_$(date +%Y%m%d_%H%M%S)"
+fi
+
+rm "${wgetrc}"
