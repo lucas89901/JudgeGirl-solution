@@ -36,7 +36,7 @@ wget \
 
 wgetrc="$(mktemp)"
 cat > "${wgetrc}" <<END
-accept-regex = $1|report|submissions|source|favicon.ico
+accept-regex = $1|report|submissions|source|ico|css|js|otf|woff|png|jpg
 backup_converted = on
 check_certificate = off
 convert_links = on
