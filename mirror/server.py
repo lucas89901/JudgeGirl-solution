@@ -77,11 +77,13 @@ def make_response_from_file(path) -> flask.Response | None:
         app.logger.debug('Trying to send file: %s', path)
         with open(werkzeug.utils.safe_join(app.static_folder, path), 'rb') as f:
             # Extract original headers stored at the beginning of file.
+            original_headers = {}
             first_line = f.readline()
-            if not first_line.startswith(b'HTTP'):
+            if first_line.startswith(b'HTTP'):
+                original_headers = http.client.parse_headers(f)
+            else:
                 app.logger.warning('Reading file without original headers.')
                 f.seek(0)
-            original_headers = http.client.parse_headers(f)
 
             # Make sure to call f.read() only after headers have been parsed,
             # otherwise the headers would be included in the response body.
@@ -109,16 +111,19 @@ def make_response_from_file(path) -> flask.Response | None:
 
 @app.route('/<path:path>', methods=['GET', 'POST'])
 def all_routes(path: str):
-    # Unused. Use flask.request.full_path because it includes query string.
-    del path
-
-    # Remove the first '/', otherwise werkzeug.utils.safe_join() would return
-    # None.
+    # Use flask.request.full_path because it includes query string. Remove the
+    # first '/', otherwise werkzeug.utils.safe_join() would return None.
     local_path = file_path_for_url(flask.request.full_path,
                                    flask.request.form).lstrip('/')
     response = make_response_from_file(local_path)
     if response:
         return response
+
+    # Fall back to file path without any query string or form data.
+    response = make_response_from_file(path)
+    if response:
+        return response
+
     flask.abort(404)
 
 
