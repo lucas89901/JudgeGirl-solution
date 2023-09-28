@@ -38,7 +38,7 @@ int main() {
     scanf("%d%d", &x[i], &y[i]);
   }
   // Bubble sort.
-  for (int i = m; i > 0; --i) {
+  for (int i = m; i > 1; --i) {
     for (int j = 0; j < m - 1; ++j) {
       if (GreaterThan(x[j], y[j], x[j + 1], y[j + 1])) {
         Swap(&x[j], &y[j], &x[j + 1], &y[j + 1]);
@@ -55,11 +55,10 @@ int main() {
         ++length[d];
       }
     }
-
-    // for (int d = 0; d < 4; ++d) {
-    //   fprintf(stderr, "%d ", length[d]);
-    // }
-    // fprintf(stderr, "\n");
+#ifdef GP_DEBUG
+    fprintf(stderr, "length = {%d,%d,%d,%d}\n", length[0], length[1], length[2],
+            length[3]);
+#endif
 
     if (length[0] > 1 && length[3] > 1) {
       printf("0 %d %d\n", length[3], length[0]);

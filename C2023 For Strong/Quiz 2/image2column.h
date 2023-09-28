@@ -4,13 +4,6 @@
 
 void img2col(int w, int h, int k, int imgMatrix[MAXW][MAXH],
              int colMatrix[MAXW * MAXH][MAXK * MAXK]) {
-  // for (int i = 0; i < w; ++i) {
-  //   for (int j = 0; j < h; ++j) {
-  //     fprintf(stderr, "%d ", imgMatrix[i][j]);
-  //   }
-  //   fprintf(stderr, "\n");
-  // }
-
   for (int c = 0; c <= h - k; ++c) {
     for (int r = 0; r <= w - k; ++r) {
       // fprintf(stderr, "col: %d\n", c * (w - k + 1) + r);
