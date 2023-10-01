@@ -1,2 +1,5 @@
 beautifulsoup4~=4.12.2
+flask~=3.0.0
+livereload~=2.6.3
+PyGithub~=2.1.1
 requests~=2.31.0

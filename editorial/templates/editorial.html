@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@primer/css@21.0.9/dist/primer.css" integrity="sha256-0UZdDA577BfJhvhrbpNoDkE9E9WIfqsEPjoN+eQuq2E=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-syntax-light@0.5.0/lib/github-light.css" integrity="sha256-Wi4vd63LdQ6w+JDF4I3+NTu1oZnLmdcqQghgXEcWdHw=" crossorigin="anonymous">
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [["$", "$"]],
+          displayMath: [["$$", "$$"]],
+          packages: {
+            "[-]": ["noerrors", "bbox", "html", "require", "newcommand", "action", "colortbl"]
+          },
+          maxMacros: 1e3
+        }
+      }
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js" integrity="sha256-Cm3tWrvOEzMWWN0jnzQ4Kr0GSSx0txth6MqoES7FX6U=" crossorigin="anonymous"></script>
+  </head>
+  <body class="markdown-body container-lg my-6">
+    {{ body|safe }}
+  </body>
+</html>
