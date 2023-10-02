@@ -36,7 +36,7 @@ wget \
 
 wgetrc="$(mktemp)"
 cat > "${wgetrc}" <<END
-accept-regex = $1|report|submissions|source|ico|css|js|otf|woff|png|jpg
+accept-regex = $1|report|submissions|source|ico|css|js|ttf|otf|woff|png|jpg|gif
 backup_converted = on
 check_certificate = off
 convert_links = on
@@ -46,7 +46,7 @@ load_cookies = cookies.txt
 page_requisites = on
 recursive = on
 reclevel = 0
-reject-regex = logout
+reject-regex = logout|MathJax
 # restrict_file_names = ascii
 robots = off
 # save_cookies = cookies.txt
