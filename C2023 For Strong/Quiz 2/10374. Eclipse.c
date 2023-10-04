@@ -10,9 +10,9 @@ inline int Max(int a, int b) {
 int main() {
   int N, M, L, W, x, y, s, k;
   scanf("%d%d%d%d%d%d%d%d", &N, &M, &L, &W, &x, &y, &s, &k);
-  int sun[M][N];
-  for (int j = N - 1; j >= 0; --j) {
-    for (int i = 0; i < M; ++i) {
+  int sun[N][M];
+  for (int i = N - 1; i >= 0; --i) {
+    for (int j = 0; j < M; ++j) {
       scanf("%d", &sun[i][j]);
     }
   }
@@ -36,15 +36,15 @@ int main() {
       break;
     }
 
-    for (int j = N - 1; j >= 0; --j) {
-      for (int i = 0; i < M; ++i) {
-        if (x <= i && i < x + W && y <= j && j < y + L) {
-          // Point (i, j) is in shadow.
+    for (int i = N - 1; i >= 0; --i) {
+      for (int j = 0; j < M; ++j) {
+        if (x <= j && j < x + W && y <= i && i < y + L) {
+          // Point (j, i) is in shadow.
           printf("0");
         } else {
           printf("%d", sun[i][j]);
         }
-        printf("%c", " \n"[i == M - 1]);
+        printf("%c", " \n"[j == M - 1]);
       }
     }
     printf("\n");
