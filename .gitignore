@@ -160,7 +160,5 @@ cython_debug/
 #.idea/
 
 ### Custom
-*.in
-*.out
 mirror/cookies.txt
 mirror/judgegirl.csie.org*
