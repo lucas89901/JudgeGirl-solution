@@ -9,13 +9,14 @@ import re
 import urllib.parse
 
 import flask
+import PyInquirer
 import werkzeug.utils
 
 STATIC_FOLDER_PATTERN = re.compile(r'judgegirl.csie.org(?P<time>_\d+_\d+)?')
 
 
-def discover_static_folder() -> pathlib.Path | None:
-    newest_folder = None
+def discover_static_folders() -> list[tuple[datetime.datetime, pathlib.Path]]:
+    folders = []
     for folder in pathlib.Path().iterdir():
         if not folder.is_dir():
             continue
@@ -34,16 +35,23 @@ def discover_static_folder() -> pathlib.Path | None:
             # Assume time of clone is the creation time of folder.
             clone_time = datetime.datetime.fromtimestamp(
                 os.path.getctime(folder))
-
-        if newest_folder is None or clone_time > newest_folder[1]:
-            newest_folder = (folder, clone_time)
-
-    if newest_folder is None:
-        return None
-    return newest_folder[0]
+        folders.append((clone_time, folder))
+    return sorted(folders, reverse=True)
 
 
-app = flask.Flask(__name__, static_folder=discover_static_folder())
+def prompt_static_folder() -> str:
+    questions = [{
+        'type': 'list',
+        'name': 'static_folder',
+        'message': 'Select folder to serve:',
+        'choices': [str(folder[1]) for folder in discover_static_folders()]
+    }]
+    answers = PyInquirer.prompt(questions)
+    return answers['static_folder']
+
+
+STATIC_FOLDER = prompt_static_folder()
+app = flask.Flask(__name__, static_folder=STATIC_FOLDER)
 
 
 def file_path_for_url(url: str,
@@ -128,4 +136,4 @@ def all_routes(path: str):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
