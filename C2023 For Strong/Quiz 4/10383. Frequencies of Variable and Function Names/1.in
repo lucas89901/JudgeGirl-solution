@@ -1,0 +1,10 @@
+int add(int a, int b) {
+    return a + b;
+}
+
+int main() {
+    int abcdefghijklmnopqrstuvwx_x = 5;
+    int abcdefghijklmnopqrstuvwx_y = 10;
+    int result = add(abcdefghijklmnopqrstuvwx_x, abcdefghijklmnopqrstuvwx_y);
+    return 0;
+}
