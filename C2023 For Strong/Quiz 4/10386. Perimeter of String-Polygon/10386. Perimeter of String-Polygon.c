@@ -6,6 +6,7 @@ int main() {
   int size = 0;
   while (scanf("%s", strings[size++]) != EOF) {
   }
+  // Last `scanf()` encounters EOF but still increments `size`, so we decrement.
   --size;
 
   int answer = 0;

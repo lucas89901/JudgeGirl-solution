@@ -45,6 +45,7 @@ int main() {
     }
   }
 
+  // Ignore answer[0], which is "" (kScale[0]).
   for (int i = size - 1; i >= 1; --i) {
     printf("%s%c", answer[i], " \n"[i == 1]);
   }
