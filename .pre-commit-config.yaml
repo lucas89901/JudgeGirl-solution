@@ -7,3 +7,7 @@ repos:
     rev: v0.40.1
     hooks:
       - id: yapf
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: v17.0.4
+    hooks:
+      - id: clang-format
