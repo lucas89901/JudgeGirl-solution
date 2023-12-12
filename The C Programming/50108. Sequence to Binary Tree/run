@@ -1,0 +1,8 @@
+#!/bin/bash
+
+gcc -std=c99 -O2 main.c construct.c -DMAXLENGTH=5 \
+  && ./a.out < 1.in | diff - 1.out -y
+gcc -std=c99 -O2 main.c construct.c -DMAXLENGTH=3 \
+  && ./a.out < 2.in | diff - 2.out -y
+gcc -std=c99 -O2 main.c construct.c -DMAXLENGTH=2 \
+  && ./a.out < 3.in | diff - 3.out -y
