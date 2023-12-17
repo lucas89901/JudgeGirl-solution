@@ -1,0 +1,8 @@
+#!/bin/bash
+
+gcc genwav.c freqCalculator.c -O2 -std=c99 -o genwav -lm || exit 1
+
+for i in {1..3}; do
+  ./genwav "${i}.in" "${i}.wav"
+  diff "${i}.wav" "0-${i}-ans.wav" || exit 2
+done
